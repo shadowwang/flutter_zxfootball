@@ -1,46 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boost/flutter_boost.dart';
 
 import 'TabBarPageWidget.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
-  @override
-  State<StatefulWidget> createState() {
-    return new ZxFootballNewsPage();
-  }
-}
-
-class ZxFootballNewsPage extends State {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    FlutterBoost.singleton.registerPageBuilders({
-      //对应的Page的名字，最好是类Http格式
-      '/': (pageName, params, _) {
-        return TabBarPageWidget();
-      },
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       title: 'News',
-        builder: FlutterBoost.init(postPush: _onRoutePushed),
+        title: 'Flutter Demo',
+        theme: ThemeData.dark(),
+        initialRoute: "/",
+        routes: <String, WidgetBuilder>{
+          "/": (context) => MyHomePage(title: '新闻 News')
+        }
     );
   }
+}
 
-  void _onRoutePushed(
-      String pageName,
-      String uniqueId,
-      Map<String, dynamic> params,
-      Route<dynamic> route,
-      Future<dynamic> _,
-      ) {}
+class MyHomePage extends StatelessWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new TabBarPageWidget();
+  }
 }

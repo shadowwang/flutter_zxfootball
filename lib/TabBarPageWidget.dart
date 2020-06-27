@@ -27,29 +27,31 @@ class _TabBarPageWidgetState extends State<TabBarPageWidget> {
   //每个tab选项页对应的页面
   List<Widget> itemViews = new List();
 
-  PageController pageController;
+  PageController pageController = new PageController();
   Future<Null> _getNewsTabs() async {
     List<dynamic> tabs;
     try {
       tabs = await platform.invokeMethod("getNewsTabs");
     } on PlatformException catch (e) {
     }
+
     setState(() {
-      print("_ZxFootballTabBarWidgetState---setState---$tabs");
       if (tabs != null && tabs.length > 0) {
         for (int i = 0; i < tabs.length; i++) {
-          tabWidgets.add(new FlatButton(onPressed: () {
-            topPageController.jumpTo(MediaQuery.of(context).size.width * i);
-          }, child: new Text(tabs[i], maxLines: 1)));
+          tabWidgets.add(
+              new FlatButton(onPressed: () {
+                    pageController.jumpTo(MediaQuery.of(context).size.width * i);
+              },
+                  child: new Text(tabs[i], maxLines: 1)
+              )
+          );
 
-          itemViews.add(new ZxFootballNewsAllPage());
+          itemViews.add(new ZxFootballNewsTransferPage());
         }
-        pageController = new PageController();
       }
     });
   }
 
-  final PageController topPageController = new PageController();
 
   _renderPage() {
     return [
