@@ -1,8 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'TabBarPageWidget.dart';
 
-void main() => runApp(MyApp());
+void main() => runZonedGuarded(() async {
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    Zone.current.handleUncaughtError(details.exception, details.stack);
+    return Container(
+      color: Colors.transparent
+    );
+  };
+
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    FlutterError.dumpErrorToConsole(details);
+    Zone.current.handleUncaughtError(details.exception, details.stack);
+  };
+  runApp(MyApp());
+}, (Object error, StackTrace stack)  {
+   print(error);
+   print(stack);
+});
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
